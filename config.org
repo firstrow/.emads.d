@@ -1,0 +1,105 @@
+* Custom file
+#+BEGIN_SRC emacs-lisp
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(load custom-file)
+#+END_SRC
+* Backups
+#+BEGIN_SRC emacs-lisp
+;; don't create backup~ files
+(setq backup-by-copying t
+      make-backup-files nil
+      create-lockfiles nil)
+
+;; Save all tempfiles in $TMPDIR/emacs$UID/
+(defconst emacs-tmp-dir (format "%s/%s%s/" temporary-file-directory "emacs" (user-uid)))
+(setq backup-directory-alist
+    `((".*" . ,emacs-tmp-dir)))
+(setq auto-save-file-name-transforms
+    `((".*" ,emacs-tmp-dir t)))
+(setq auto-save-list-file-prefix
+    emacs-tmp-dir)
+#+END_SRC
+* Emacs UI
+#+BEGIN_SRC emacs-lisp
+(when window-system
+  (menu-bar-mode -1)
+  (tool-bar-mode -1)
+  (scroll-bar-mode -1)
+  (tooltip-mode -1))
+
+;; (set-window-fringes nil 2 2) 
+(show-paren-mode t)
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+(defalias 'yes-or-no-p 'y-or-n-p)
+(setq scroll-margin 5 scroll-preserve-screen-position 1)
+(prefer-coding-system 'utf-8)
+(global-auto-revert-mode 1) ;; Always reload the file if it changed on disk
+#+END_SRC
+* Autocomplete
+#+BEGIN_SRC emacs-lisp
+(req-package autocomplete)
+(setq
+ ac-override-local-map nil
+ ac-use-menu-map t
+ ac-candidate-limit 20)
+(global-auto-complete-mode t)
+#+END_SRC
+* Evil
+** Evil mode
+#+BEGIN_SRC emacs-lisp
+(req-package evil
+  :ensure evil
+  :init
+  (progn
+    (setq evil-default-cursor t)
+    (evil-mode 1)
+    (setq evil-motion-state-modes
+          (append evil-emacs-state-modes evil-motion-state-modes))
+    ;; (setq evil-emacs-state-modes '(dired-mode))
+  )
+  :config
+  (progn
+    (bind-key "[escape]" 'keyboard-escape-quit evil-normal-state-map)
+    (bind-key "[escape]" 'keyboard-escape-quit evil-visual-state-map)
+    (bind-key "<escape>" 'keyboard-escape-quit)
+    ))
+#+END_SRC
+** Evil leader mode
+#+begin_src emacs-lisp
+(req-package evil-leader
+            :require (evil find-file-in-repository ace-jump-mode 
+		evil-nerd-commenter
+	        ace-window
+	    )
+            :ensure evil-leader
+            :config
+            (progn
+              (evil-leader/set-leader "<SPC>")
+              (global-evil-leader-mode 1)
+              (evil-leader/set-key
+                "SPC" 'ace-jump-char-mode
+                "f" 'find-file-in-repository
+                "c" 'evilnc-comment-or-uncomment-lines
+                "k" 'ido-kill-buffer
+		"l" 'ace-jump-line-mode
+		"w" 'ace-window 
+                "b" 'ido-switch-buffer
+                )))
+#+end_src
+* Ido mode
+#+BEGIN_SRC emacs-lisp
+(use-package ido
+  :init
+  (progn
+    (setq ido-enable-flex-matching t)
+    (setq ido-everywhere t)
+    (ido-mode t)
+    (use-package ido-vertical-mode
+      :ensure t
+      :init (ido-vertical-mode 1)
+      (setq ido-vertical-define-keys 'C-n-and-C-p-only))))
+#+END_SRC
+* Load deps
+#+BEGIN_SRC emacs-lisp
+(req-package-finish)
+#+END_SRC
