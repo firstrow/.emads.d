@@ -1,5 +1,6 @@
 ;;; Begin initialization
 ;; Turn off mouse interface early in startup to avoid momentary display
+(setq gc-cons-threshold 2000000)
 (setq inhibit-startup-message t)
 (setq initial-scratch-message "")
 
