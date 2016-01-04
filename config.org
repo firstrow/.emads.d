@@ -100,11 +100,56 @@
       :init (ido-vertical-mode 1)
       (setq ido-vertical-define-keys 'C-n-and-C-p-only))))
 #+END_SRC
+* Shell variables
+#+BEGIN_SRC emacs-lisp
+(req-package exec-path-from-shell
+  :config
+  (progn
+    (when (memq window-system '(mac ns))
+      (exec-path-from-shell-initialize)
+      (exec-path-from-shell-copy-env "GOPATH")
+    )
+  )
+)
+#+END_SRC
+* Golang
+#+BEGIN_SRC emacs-lisp
+(req-package go-mode
+  :require (go-eldoc go-autocomplete go-autocomplete-config)
+  :config
+  (progn
+    (add-hook 'go-mode-hook 'go-eldoc-setup)
+    (ac-config-default)
+    (add-hook 'before-save-hook 'gofmt-before-save)
+    (load-file "$GOPATH/src/golang.org/x/tools/cmd/oracle/oracle.el")
+  )
+)
+#+END_SRC
+* Ag search
+#+BEGIN_SRC emacs-lisp
+(req-package ag)
+#+END_SRC
 * Smex
 #+BEGIN_SRC emacs-lisp
 (req-package smex
   :config (smex-initialize)
   :bind ("M-x" . smex))
+#+END_SRC
+* Themes
+#+BEGIN_SRC emacs-lisp
+(use-package solarized-theme
+  :ensure t
+  :init
+  (progn
+    (load-theme 'solarized-light t)
+    (set-face-attribute `mode-line nil
+                        :box nil)
+    (set-face-attribute `mode-line-inactive nil
+                        :box nil)))
+#+END_SRC
+* Fonts
+#+BEGIN_SRC emacs-lisp
+(set-default-font "M+ 2m 14")
 #+END_SRC
 * Load deps
 #+BEGIN_SRC emacs-lisp
