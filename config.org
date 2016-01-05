@@ -86,7 +86,7 @@
 ** Evil leader mode
 #+begin_src emacs-lisp
 (req-package evil-leader
-            :require (evil find-file-in-repository ace-jump-mode 
+            :require (evil find-file-in-repository ace-jump-mode
 		evil-nerd-commenter
 	        ace-window
 	    )
@@ -101,7 +101,7 @@
                 "c" 'evilnc-comment-or-uncomment-lines
                 "k" 'ido-kill-buffer
 		"l" 'ace-jump-line-mode
-		"w" 'ace-window 
+		"w" 'ace-window
                 "b" 'ido-switch-buffer
                 )))
 #+end_src
@@ -170,7 +170,8 @@
 #+END_SRC
 * Themes
 #+BEGIN_SRC emacs-lisp
-(use-package solarized-theme
+(req-package spacemacs-theme)
+(req-package solarized-theme
   :ensure t
   :init
   (progn
