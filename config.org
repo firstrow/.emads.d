@@ -86,9 +86,14 @@
 ** Evil leader mode
 #+begin_src emacs-lisp
 (req-package evil-leader
-            :require (evil find-file-in-repository ace-jump-mode
+            :require (
+                evil
 		evil-nerd-commenter
+                find-file-in-repository
+                ace-jump-mode
 	        ace-window
+                helm-config
+                helm
 	    )
             :ensure evil-leader
             :config
@@ -102,7 +107,7 @@
                 "k" 'ido-kill-buffer
 		"l" 'ace-jump-line-mode
 		"w" 'ace-window
-                "b" 'ido-switch-buffer
+                "b" 'helm-buffers-list
                 )))
 #+end_src
 * Ido mode
@@ -164,7 +169,7 @@
   )
   :config
   (progn
-    (global-whitespace-mode)
+    (add-hook 'prog-mode-hook 'whitespace-mode)
   )
 )
 #+END_SRC
@@ -175,11 +180,13 @@
   :ensure t
   :init
   (progn
-    (load-theme 'solarized-light t)
+    (load-theme 'spacemacs-dark t)
     (set-face-attribute `mode-line nil
                         :box nil)
     (set-face-attribute `mode-line-inactive nil
-                        :box nil)))
+                        :box nil)
+  )
+)
 #+END_SRC
 * Fonts
 #+BEGIN_SRC emacs-lisp
