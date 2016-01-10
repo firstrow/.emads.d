@@ -92,6 +92,7 @@
                 find-file-in-repository
                 ace-jump-mode
 	        ace-window
+                swiper
                 helm-config
                 helm
 	    )
@@ -107,7 +108,8 @@
                 "k" 'ido-kill-buffer
 		"l" 'ace-jump-line-mode
 		"w" 'ace-window
-                "b" 'helm-buffers-list
+		"s" 'swiper
+                "b" 'helm-mini
                 )))
 #+end_src
 * Ido mode
