@@ -63,6 +63,14 @@
   )
 )
 #+END_SRC
+* Ivy
+(req-package swiper
+  :ensure t
+  :config
+  (progn
+    (ivy-mode 1)
+  )
+)
 * Evil
 ** Evil mode
 #+BEGIN_SRC emacs-lisp
@@ -93,6 +101,7 @@
                 ace-jump-mode
 	        ace-window
                 swiper
+                counsel
                 helm-config
                 helm
 	    )
@@ -154,11 +163,11 @@
 #+BEGIN_SRC emacs-lisp
 (req-package ag)
 #+END_SRC
-* Smex
+* Counsel
 #+BEGIN_SRC emacs-lisp
-(req-package smex
+(req-package counsel
   :config (smex-initialize)
-  :bind ("M-x" . smex))
+  :bind ("M-x" . counsel-M-x))
 #+END_SRC
 * Whitespace
 #+BEGIN_SRC emacs-lisp
