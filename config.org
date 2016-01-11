@@ -63,7 +63,7 @@
   )
 )
 #+END_SRC
-* Ivy
+* Ivy/Swiper
 (req-package swiper
   :ensure t
   :config
@@ -82,7 +82,6 @@
     (evil-mode 1)
     (setq evil-motion-state-modes
           (append evil-emacs-state-modes evil-motion-state-modes))
-    ;;   (setq evil-emacs-state-modes '(ibuffer-mode))
   )
   :config
   (progn
@@ -97,11 +96,8 @@
             :require (
                 evil
 		evil-nerd-commenter
-                find-file-in-repository
                 ace-jump-mode
 	        ace-window
-                swiper
-                counsel
                 helm-config
                 helm
 	    )
@@ -112,7 +108,7 @@
               (global-evil-leader-mode 1)
               (evil-leader/set-key
                 "SPC" 'ace-jump-char-mode
-                "f" 'find-file-in-repository
+                "f" 'counsel-git
                 "c" 'evilnc-comment-or-uncomment-lines
                 "k" 'ido-kill-buffer
 		"l" 'ace-jump-line-mode
@@ -149,7 +145,7 @@
 * Golang
 #+BEGIN_SRC emacs-lisp
 (req-package go-mode
-  :require (go-eldoc go-autocomplete go-autocomplete-config)
+  :require (go-eldoc go-autocomplete)
   :ensure t
   :config
   (progn
@@ -166,7 +162,6 @@
 * Counsel
 #+BEGIN_SRC emacs-lisp
 (req-package counsel
-  :config (smex-initialize)
   :bind ("M-x" . counsel-M-x))
 #+END_SRC
 * Whitespace
