@@ -98,8 +98,6 @@
 		evil-nerd-commenter
                 ace-jump-mode
 	        ace-window
-                helm-config
-                helm
 	    )
             :ensure evil-leader
             :config
@@ -114,7 +112,7 @@
 		"l" 'ace-jump-line-mode
 		"w" 'ace-window
 		"s" 'swiper
-                "b" 'helm-mini
+                "b" 'ido-switch-buffer
                 )))
 #+end_src
 * Ido mode
@@ -169,13 +167,29 @@
 (req-package whitespace
   :init
   (progn
-    (setq whitespace-style '(face lines-tail))
-    (setq-default show-trailing-whitespace t)
-    (setq whitespace-line-column 180)
+    ;; (setq whitespace-style '(face lines-tail))
+    ;; (setq-default show-trailing-whitespace t)
+    ;; (setq whitespace-line-column 180)
+        (setq whitespace-display-mappings
+        ;; all numbers are Unicode codepoint in decimal. try (insert-char 182 ) to see it
+        '(
+            (space-mark 32 [183] [46]) ; 32 SPACE, 183 MIDDLE DOT 「·」, 46 FULL STOP 「.」
+            (newline-mark 10 [182 10]) ; 10 LINE FEED
+            (tab-mark 9 [187 9] [9655 9] [92 9]) ; 9 TAB, 9655 WHITE RIGHT-POINTING TRIANGLE 「▷」
+            ))
+        (setq whitespace-style '(face tabs trailing tab-mark))
+        (set-face-attribute 'whitespace-tab nil
+                            :background "#f0f0f0"
+                            :foreground "#00a8a8"
+                            :weight 'bold)
+        (set-face-attribute 'whitespace-trailing nil
+                            :background "#e4eeff"
+                            :foreground "#183bc8"
+                            :weight 'normal)
   )
   :config
   (progn
-    (add-hook 'prog-mode-hook 'whitespace-mode)
+    (global-whitespace-mode t)
   )
 )
 #+END_SRC
@@ -191,6 +205,23 @@
                         :box nil)
     (set-face-attribute `mode-line-inactive nil
                         :box nil)
+  )
+)
+#+END_SRC
+* Start page
+#+BEGIN_SRC emacs-lisp
+(setq inhibit-splash-screen t)
+(require 'bookmark)
+(bookmark-bmenu-list)
+(switch-to-buffer "*Bookmark List*")
+#+END_SRC
+* Deft
+#+BEGIN_SRC emacs-lisp
+(req-package deft
+  :config
+  (progn
+    (setq deft-default-extension "org")
+    (setq deft-directory "~/Dropbox/Notes")
   )
 )
 #+END_SRC
